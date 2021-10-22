@@ -9,6 +9,14 @@ class Pessoa(db.Model):
     def __str__(self) -> str:
         return f'(id={self.id}) {self.nome}, '+\
                f'{self.email}, {self.telefone}'
+    
+    def json(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "email": self.email,
+            "telefone": self.telefone
+        }
 
 if __name__ == "__main__":
     if os.path.exists(arquivobd):
