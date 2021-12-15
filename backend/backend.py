@@ -1,17 +1,17 @@
 from config import *
 from flask import request
-from modelo import Pessoa
+from modelo import EstudanteDaDisciplina
 
 @app.route("/")
 def inicio():
-    return 'Sistema de cadastro de pessoas. '+\
-        '<a href="/listar_pessoas">Operação listar</a>'
+    return 'Sistema de cadastro de estudantes. '+\
+        '<a href="/listar_estudantes">Operação listar</a>'
 
-@app.route("/listar_pessoas")
-def listar_pessoas():
-    pessoas = db.session.query(Pessoa).all()
-    pessoas_em_json = [ x.json() for x in pessoas ]
-    resposta = jsonify(pessoas_em_json)
+@app.route("/listar_estudantes")
+def listar_estudantes():
+    estudantes = db.session.query(EstudanteDaDisciplina).all()
+    estudantes_em_json = [ x.json() for x in estudantes ]
+    resposta = jsonify(estudantes_em_json)
 
     resposta.headers.add("Access-Control-Allow-Origin", "*")
     return resposta
@@ -23,7 +23,7 @@ def incluir_pessoa():
 
    dados = request.get_json() 
    try: 
-    nova = Pessoa(**dados) 
+    nova = EstudanteDaDisciplina(**dados) 
     print(nova)
     db.session.add(nova) 
     db.session.commit() 

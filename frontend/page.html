@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Sistema de Pessoa</title>
+    <title>Sistema de Estudantes</title>
   </head>
   <body>
     
@@ -21,54 +21,52 @@
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <span class="navbar-text">Cadastro de Pessoas</span>
+              <span class="navbar-text">Cadastro de Estudantes</span>
               <a class="nav-link nav-item" href="#">Início <span class="sr-only">(current)</span></a>
-              <a class="nav-link nav-item" href="#" id="link_listar_pessoas">Listar</a>
-              <a class="nav-link nav-item" href="#" data-toggle="modal" data-target="#exampleModal">Incluir</a>            
+              <a class="nav-link nav-item" href="#" id="link_listar_estudantes">Listar</a>
+              <a class="nav-link nav-item" href="#" data-toggle="modal" data-target="#studentModal">Incluir Estudante</a>                       
         </div>
     </nav>
 
     <div id="corpoDaPagina">
 
         <div id="conteudoInicial" class="invisible">
-            Bem vindo ao sistema de pessoas.
+            Bem vindo ao sistema de estudantes.
         </div>
 
-        <table id="tabelaPessoas" class="table invisible">
+        <table id="tabelaEstudantes" class="table invisible">
             <thead>
               <tr>
                 <th scope="col">Nome</th>
                 <th scope="col">Email</th>
-                <th scope="col">Telefone</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Disciplina</th>
+                <th scope="col">Carga Horária</th>
+                <th scope="col">Ementa</th>
+                <th scope="col">Semestre</th>
+                <th scope="col">Média Final</th>
+                <th scope="col">Frequência</th>
               </tr>
             </thead>
-            <tbody id="corpoTabelaPessoas">
-                <!--
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            -->
+            <tbody id="corpoTabelaEstudantes">
             </tbody>
           </table>
 
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <!-- Estudante -->
+          <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
 
                   <h5 class="modal-title" id="exampleModalLabel">
-                    Nova pessoa</h5>
+                    Novo estudante</h5>
 
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
-                  
+                  <p>Estudante</p>
                   <form>
                     <div class="form-group">
                       <label for="recipient-name" class="col-form-label">Nome:</label>
@@ -81,20 +79,44 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="message-text" class="col-form-label">Telefone:</label>
-                      <input type="text" class="form-control" id="telefone">
+                      <label for="message-text" class="col-form-label">CPF:</label>
+                      <input type="text" class="form-control" id="cpf">
                     </div>
-                  </form>
 
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Disciplina:</label>
+                      <input type="text" class="form-control" id="nome_disciplina">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Carga Horária:</label>
+                      <input type="text" class="form-control" id="carga_horaria">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Ementa:</label>
+                      <input type="text" class="form-control" id="ementa">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Media Final:</label>
+                      <input type="text" class="form-control" id="media_final">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Frequência:</label>
+                      <input type="text" class="form-control" id="frequencia">
+                    </div>
+                    </form>
+                  
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                  <button type="button" class="btn btn-primary" id="btn_incluir_pessoa">Incluir</button>
+                  <button type="button" class="btn btn-primary" id="btn_incluir_estudante">Incluir</button>
                 </div>
               </div>
             </div>
           </div>
-
     </div>
 
     <!-- Optional JavaScript -->

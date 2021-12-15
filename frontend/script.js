@@ -2,28 +2,28 @@ $( document ).ready(function() {
     
     $("#conteudoInicial").removeClass("invisible");
 
-    $("#link_listar_pessoas").click(function(){
+    $("#link_listar_estudantes").click(function(){
         
         $.ajax({
-            url: 'http://localhost:5000/listar_pessoas',
+            url: 'http://localhost:5000/listar_estudantes',
             method: 'GET',
             dataType: 'json', // os dados são recebidos no formato json
-            success: listar_pessoas, // chama a função listar_pessoas para processar o resultado
+            success: listar_estudantes, // chama a função listar_estudantes para processar o resultado
             error: function() {
                 alert("erro ao ler dados, verifique o backend");
             }
         });
-        function listar_pessoas(pessoas) {
+        function listar_estudantes(estudantes) {
             // inicializar um acumulador
             linhas = ""
-            // percorrer as pessoas retornadas em json
-            for (var i in pessoas) {
+            // percorrer as estudantes retornadas em json
+            for (var i in estudantes) {
 
-              // montar uma linha da tabela de pessoas
+              // montar uma linha da tabela de estudantes
               lin = "<tr>" + 
-              "<td>" + pessoas[i].nome + "</th>" + 
-              "<td>" + pessoas[i].email + "</th>" + 
-              "<td>" + pessoas[i].telefone + "</th>" + 
+              "<td>" + estudantes[i].nome + "</th>" + 
+              "<td>" + estudantes[i].email + "</th>" + 
+              "<td>" + estudantes[i].cpf + "</th>" + 
               
               "</tr>";
 
@@ -31,28 +31,34 @@ $( document ).ready(function() {
               linhas = linhas + lin;
             }
             // colocar as linhas na tabela
-            $("#corpoTabelaPessoas").html(linhas);
+            $("#corpoTabelaEstudantes").html(linhas);
 
             // esconder todos os elementos da tela
             $("#conteudoInicial").addClass("invisible");
-            $("#tabelaPessoas").addClass("invisible");
+            $("#tabelaEstudantes").addClass("invisible");
 
             // exibir a tabela
-            $("#tabelaPessoas").removeClass("table invisible");
+            $("#tabelaEstudantes").removeClass("table invisible");
         }
 
     });
 
-    $("#btn_incluir_pessoa").click(function(){
+    $("#btn_incluir_estudante").click(function(){
 
         // obter os dados da tela (do formulário modal)
-        nome_pessoa = $("#nome_pessoa").val();
+        nome_estudante = $("#nome_pessoa").val();
         email = $("#email").val();
-        telefone = $("#telefone").val();
+        cpf = $("#cpf").val();
+        disciplina = $("#nome_disciplina").val();
+        cargaHoraria = $("#carga_horaria").val();
+        ementa = $("#ementa").val();
+        mediaFinal = $("#media_final").val();
+        frequencia = $("#frequencia").val();
 
         // preparar os dados para envio (json)
-        dados = JSON.stringify({nome : nome_pessoa, email: email, 
-            telefone: telefone,});
+        dados = JSON.stringify({nome : nome_estudante, email: email, 
+            cpf: cpf, disciplina: disciplina, cargaHoraria: cargaHoraria, 
+            ementa: ementa, mediaFinal: mediaFinal, frequencia: frequencia});
 
         // mandar para o back-end
         $.ajax({
@@ -61,23 +67,28 @@ $( document ).ready(function() {
             contentType : 'application/json', // enviando dados em json
             dataType: 'json',
             data: dados,
-            success: incluirPessoa,
-            error: erroIncluirPessoa
+            success: incluirEstudante,
+            error: erroIncluirEstudante
         });
-        function incluirPessoa(resposta) {
+        function incluirEstudante(resposta) {
             if (resposta.resultado == "ok") {
                 // exibe mensagem de sucesso
-                alert('Pessoa incluída com sucesso');
+                alert('Estudante incluída com sucesso');
                 // limpar valores dos campos do formulário
                 $("#nome_pessoa").val("");
                 $("#email").val("");
-                $("#telefone").val("");
+                $("#cpf").val("");
+                $("#nome_disciplina").val("");
+                $("#carga_horaria").val("");
+                $("#ementa").val("");
+                $("#media_final").val("");
+                $("#frequencia").val("");
             } else {
-                alert('erro na comunicação');
+                alert(resposta.resultado);
             }
         }
-        function erroIncluirPessoa(resposta) {
-            alert("Deu ruim na chamada ao back-end");
+        function erroIncluirEstudante(resposta) {
+            alert(resposta);
         }
     });
     
