@@ -10,7 +10,7 @@ class Carro(db.Model):
     portas = db.Column(db.Integer)
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor} {self.portas}'
+        return f'(Carro: id={self.id} marca={self.marca} cor={self.cor} portas={self.portas})'
     
     def __init__(self, marca, cor, portas):
         self.marca = marca
@@ -33,7 +33,7 @@ class Moto(db.Model):
     cor = db.Column(db.String(254))
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor}'
+        return f'(Moto: id={self.id} marca={self.marca} cor={self.cor}'
     
     def __init__(self, marca, cor):
         self.marca = marca
@@ -56,7 +56,7 @@ class Caminhao(db.Model):
     carga =  db.relationship("CargaCaminhao", backref="caminhao", uselist=False)
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor} {self.eixos}'
+        return f'(Caminhao: id={self.id}) marca={self.marca} cor={self.cor} eixos={self.eixos}'
     
     def json(self):
         return {
@@ -70,11 +70,11 @@ class CargaCaminhao(db.Model):
     __tablename__ = 'carga_caminhao'
     id = db.Column(db.Integer, primary_key = True)
     produto =  db.Column(db.String(254))
-    preco = db.Column(db.Integer)
+    preco = db.Column(db.Float)
     caminhao_id = db.Column(db.Integer, db.ForeignKey('caminhao.id'), unique=True)
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.produto} {self.preco}'
+        return f'(CargaCaminhao: id={self.id} produto={self.produto} preco={self.preco})'
     
     def json(self):
         return {
@@ -91,7 +91,7 @@ class Trator(db.Model):
     chassi = db.Column(db.String(254)) # rígido ou articulado.
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor} {self.chassi}'
+        return f'(Trator: id={self.id} marca={self.marca} cor={self.cor} chassi={self.chassi})'
     
     def json(self):
         return {
@@ -109,7 +109,7 @@ class Onibus(db.Model):
     assentos = db.Column(db.Integer)
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor} {self.assentos}'
+        return f'(Onibus: id={self.id} marca={self.marca} cor={self.cor} assentos={self.assentos})'
     
     def json(self):
         return {
@@ -124,16 +124,17 @@ class Trem(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     marca =  db.Column(db.String(254))
     cor = db.Column(db.String(254))
-    vagoes = db.relationship("Vagao", backref="vagao") #many to one
+    vagoes = db.relationship("Vagao", backref="trem") #many to one
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor}'
+        return f'(Trem: id={self.id} marca={self.marca} cor={self.cor} vagões={self.vagoes})'
     
     def json(self):
         return {
             "id": self.id,
             "marca": self.marca,
             "cor": self.cor,
+            "vagoes": self.vagoes
         }
 
 class Vagao(db.Model):
@@ -144,30 +145,33 @@ class Vagao(db.Model):
     trem_id = db.Column(db.Integer, db.ForeignKey('trem.id')) #many to one
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.carga} {self.cor}'
+        return f'(Vagao: id={self.id} carga={self.carga} cor={self.cor} trem_id={self.trem_id})'
     
     def json(self):
         return {
             "id": self.id,
             "marca": self.carga,
             "cor": self.cor,
+            "carga": self.carga,
+            "trem_id": self.trem_id
         }
         
 class CargaVagao(db.Model):
     __tablename__ = 'carga_vagao'
     id = db.Column(db.Integer, primary_key = True)
     produto =  db.Column(db.String(254))
-    preco = db.Column(db.Integer)
+    preco = db.Column(db.Float)
     vagao_id = db.Column(db.Integer, db.ForeignKey('vagao.id'), unique=True) #one to one
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.produto} {self.preco}'
+        return f'(CargaVagao: id={self.id} produto={self.produto} preço={self.preco} vagãoID={self.vagao_id})'
     
     def json(self):
         return {
             "id": self.id,
             "produto": self.produto,
             "cor": self.preco,
+            "vagao_id": self.vagao_id
         }
 
 class Barco(db.Model):
@@ -179,7 +183,7 @@ class Barco(db.Model):
     carga =  db.relationship("CargaBarco", backref="barco", uselist=False)
 
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.marca} {self.cor} {self.mastros}'
+        return f'(Barco: id={self.id} marca={self.marca} cor={self.cor} mastros={self.mastros})'
     
     def __init__(self, marca, cor, mastros):
         self.marca = marca
@@ -203,13 +207,7 @@ class CargaBarco(db.Model):
     barco_id = db.Column(db.Integer, db.ForeignKey('barco.id'), unique=True)
     
     def __str__(self) -> str:
-        return f'(id={self.id}) {self.produto} {self.preco} {self.barco_id}'
-    
-    def __init__(self, produto, preco, barcoId):
-        self.produto = produto
-        self.preco = preco
-        self.barco_id = barcoId
-        super(CargaBarco,self).__init__()
+        return f'(CargaBarco: id={self.id} produto={self.produto} preço={self.preco} barcoID={self.barco_id}'
 
     def json(self):
         return {
@@ -226,17 +224,62 @@ if __name__ == "__main__":
     db.create_all()
 
     carro = Carro("marca", "azul", 4)
-    moto = Moto("marca", "vermelha")
-    barco = Barco("marca", "rosa", 3)
-    cargaBarco = CargaBarco("banana", 1500.00, barco)
 
+    moto = Moto("marca", "vermelha")
+
+    barco = Barco("marca", "rosa", 3)
+    cargaBarco = CargaBarco(produto = "banana", preco = 1500.00, barco = barco)
+
+    trem = Trem(marca="marca", cor="verde")
+    vagao1 = Vagao(cor = "verde", trem = trem)
+    vagao2 = Vagao(cor = "verde", trem = trem)
+    cargaVagao1 = CargaVagao(produto = "coco", preco = 1000.00, vagao = vagao1)
+    cargaVagao2 = CargaVagao(produto = "macarrão", preco = 2000.00, vagao = vagao2)
+
+    onibus = Onibus(marca = "marca", cor = "amarelo", assentos = 40)
+
+    trator = Trator(marca = "marca", cor = "Roxo", chassi = "rígido")
+
+    caminhao = Caminhao(marca = "marca", cor = "laranja", eixos = 4)
+    cargaCaminhao = CargaCaminhao(produto = "camisetas", preco = 4000.00, caminhao = caminhao) 
+
+
+    db.session.add(caminhao)
+    db.session.add(cargaCaminhao)
+    db.session.add(trator)
+    db.session.add(onibus)
+    db.session.add(trem)
+    db.session.add(vagao1)
+    db.session.add(vagao2)
+    db.session.add(cargaVagao1)
+    db.session.add(cargaVagao2)
     db.session.add(barco)
     db.session.add(cargaBarco)
     db.session.add(carro)
     db.session.add(moto)
     db.session.commit()
 
+
+    print("<::::-----------------------------------------------::::>")
+    print(caminhao)
+    print(cargaCaminhao)
+    print("------------------------------------------------")
+    print(trator)
+    print("------------------------------------------------")
+    print(onibus)
+    print("------------------------------------------------")
+    print(trem)
+    print("------------------------------------------------")
+    print(vagao1)
+    print(vagao2)
+    print("------------------------------------------------")
+    print(cargaVagao1)
+    print(cargaVagao2)
+    print("------------------------------------------------")
     print(barco)
     print(cargaBarco)
+    print("------------------------------------------------")
     print(carro)
+    print("------------------------------------------------")
     print(moto)
+    print("<::::------------------------------------------------::::>")
